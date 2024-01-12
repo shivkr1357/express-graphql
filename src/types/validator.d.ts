@@ -1,16 +1,3 @@
-import { FileJSON } from "formidable";
-import { BaseUser } from "../models/base_user.model";
-
-export interface Errors {
-  [props: string]: string;
-}
-
-export type Error = string | undefined;
-
-export type fileObj = FileJSON | "";
-
-export interface SanitizedData extends Errors {}
-
 export interface CheckString {
   value: string;
   label: string;
@@ -19,11 +6,6 @@ export interface CheckString {
   required?: boolean;
 }
 
-export type Truthy = true | "true" | 1 | "1" | "yes";
-export type Falsy = false | "false" | 0 | "0" | "no";
-
-export type BooleanTypes = Truthy | Falsy;
-
 export interface IErrorRes {
   status: boolean;
   statusCode: number;
@@ -31,8 +13,24 @@ export interface IErrorRes {
   errors?: Errors;
 }
 
-export interface IAppleInfo
-  extends Pick<BaseUser, "profile_name" | "username"> {
-  email?: string;
-  profile_picture: fileObj;
+export interface SignUpBody {
+  email: String;
+  password: String;
+  fullName: String;
+  profilePicture: String;
+  colorTheme: String;
+  isDeactivated: Boolean;
+  phone?: String;
+  deviceToken?: String;
+  address?: String;
+  hobbies?: [];
+  gender?: String;
+  language?: String;
+  about?: String;
+}
+
+export interface tokenBody {
+  userId: String;
+  token: String;
+  createdAt: Date;
 }
