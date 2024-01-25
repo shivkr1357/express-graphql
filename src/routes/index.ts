@@ -1,20 +1,15 @@
 import { Router } from "express";
 import authRoutes from "./auth.routes";
+import postRoutes from "./post.routes";
+import isAuthenticated from "../middlewares/authenticateUser";
 
 const router = Router();
 
-/**
- * @openapi
- * /auth/:
- *
- *     tags:
- *     - SignIn Operation
- *     description: Responds if the app is up and running
- *     responses:
- *       200:
- *         description: App is up and running
- */
+//All the auth Routes
 
 router.use("/auth", authRoutes);
+
+// All the Post routes
+router.use("/posts", isAuthenticated, postRoutes);
 
 export default router;
