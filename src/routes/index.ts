@@ -6,7 +6,6 @@ import isAuthenticated from "../middlewares/authenticateUser";
 const router = Router();
 
 //All the auth Routes
-
 router.use("/auth", authRoutes);
 
 // All the Post routes

@@ -14,8 +14,6 @@ import UserToken from "../../models/userToken.model";
 const SignUp: RequestHandler = async (req, res) => {
    const { error } = signupBodyValidate(req.body);
 
-   // Check if there is any error in validation of the data
-
    if (error) {
       return res
          .status(400)
@@ -24,19 +22,14 @@ const SignUp: RequestHandler = async (req, res) => {
 
    const user = await User.findOne({ email: req.body.email });
 
-   // Check if the user exists or not with the provided email
-
    if (user) {
       return res
          .status(400)
          .json({ error: true, message: "User already exist , please login" });
    }
 
-   // generate hashed password
    const salt = await bcrypt.genSalt(Number(process.env.SALT));
    const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-   //save the user along with hashed password
 
    await new User({ ...req.body, password: hashPassword }).save();
 
@@ -117,40 +110,6 @@ const verifyToken: RequestHandler = async (req, res) => {
          .json({ error: true, message: "Internal Server Error from here" });
    }
 };
-/**
- * @swagger
- * components:
- *   schemas:
- *     Book:
- *       type: object
- *       required:
- *         - title
- *         - author
- *         - finished
- *       properties:
- *         id:
- *           type: string
- *           description: The auto-generated id of the book
- *         title:
- *           type: string
- *           description: The title of your book
- *         author:
- *           type: string
- *           description: The book author
- *         finished:
- *           type: boolean
- *           description: Whether you have finished reading the book
- *         createdAt:
- *           type: string
- *           format: date
- *           description: The date the book was added
- *       example:
- *         id: d5fE_asz
- *         title: The New Turing Omnibus
- *         author: Alexander K. Dewdney
- *         finished: false
- *         createdAt: 2020-03-10T04:05:06.157Z
- */
 
 const logout: RequestHandler = async (req, res) => {
    try {
