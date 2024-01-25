@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { IPost } from "../types/validator";
 
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema(
+const postSchema = new Schema<IPost>(
   {
     title: {
       required: true,
@@ -13,10 +14,33 @@ const postSchema = new Schema(
       type: String,
       trim: true,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "Users",
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
+    postType: {
+      type: String,
+      default: "",
+    },
+    likes: {
+      type: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+      default: [],
+    },
+    comments: {
+      type: [{ type: Schema.Types.ObjectId, ref: "PostComments" }],
+    },
   },
   { timestamps: true }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Posts = mongoose.model("Posts", postSchema);
 
-export default Post;
+export default Posts;
