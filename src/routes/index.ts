@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authRoutes from "./auth.routes";
 import postRoutes from "./post.routes";
+import userRoutes from "./users.route";
 import isAuthenticated from "../middlewares/authenticateUser";
 
 const router = Router();
@@ -10,5 +11,7 @@ router.use("/auth", authRoutes);
 
 // All the Post routes
 router.use("/posts", isAuthenticated, postRoutes);
+
+router.use("/users", userRoutes);
 
 export default router;
