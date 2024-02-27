@@ -3,10 +3,10 @@ import {
    refreshTokenBodyValidate,
    signInBodyValidate,
    signupBodyValidate,
-} from "../../utils.js/validations";
+} from "../../utils/validations";
 import User from "../../models/user.model";
 import bcrypt from "bcrypt";
-import generateToken from "../../utils.js/generateTokens";
+import generateToken from "../../utils/generateTokens";
 import jwt from "jsonwebtoken";
 import { appConfig } from "../../config/app.config";
 import UserToken from "../../models/userToken.model";

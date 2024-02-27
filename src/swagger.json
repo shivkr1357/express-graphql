@@ -1,0 +1,99 @@
+{
+   "swagger": "2.0",
+   "info": {
+      "version": "1.0.0",
+      "title": "Authentication API",
+      "description": "API for user authentication"
+   },
+   "basePath": "/api",
+   "paths": {
+      "/signin": {
+         "post": {
+            "summary": "Sign in user",
+            "description": "Endpoint to sign in a user with email and password",
+            "parameters": [
+               {
+                  "name": "body",
+                  "in": "body",
+                  "description": "User credentials",
+                  "required": true,
+                  "schema": {
+                     "type": "object",
+                     "properties": {
+                        "email": {
+                           "type": "string",
+                           "description": "User's email",
+                           "example": "user@example.com"
+                        },
+                        "password": {
+                           "type": "string",
+                           "description": "User's password",
+                           "example": "password123"
+                        }
+                     }
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "User successfully logged in",
+                  "schema": {
+                     "type": "object",
+                     "properties": {
+                        "error": {
+                           "type": "boolean",
+                           "example": false
+                        },
+                        "accessToken": {
+                           "type": "string",
+                           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        },
+                        "refreshToken": {
+                           "type": "string",
+                           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        },
+                        "message": {
+                           "type": "string",
+                           "example": "User Logged In successfully"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Bad request",
+                  "schema": {
+                     "type": "object",
+                     "properties": {
+                        "error": {
+                           "type": "boolean",
+                           "example": true
+                        },
+                        "message": {
+                           "type": "string",
+                           "example": "Validation error: Invalid email format"
+                        }
+                     }
+                  }
+               },
+               "401": {
+                  "description": "Unauthorized",
+                  "schema": {
+                     "type": "object",
+                     "properties": {
+                        "error": {
+                           "type": "boolean",
+                           "example": true
+                        },
+                        "message": {
+                           "type": "string",
+                           "example": "User does not exist with this email"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "signUp": {}
+   }
+}

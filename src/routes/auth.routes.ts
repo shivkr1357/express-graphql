@@ -1,7 +1,7 @@
 import { Router } from "express";
 import postController from "../controllers/auth/post.controller";
 import updateController from "../controllers/auth/update.controller";
-import verifyRefreshToken from "../utils.js/verifyRefreshToken";
+import verifyRefreshToken from "../utils/verifyRefreshToken";
 import isAuthenticated from "../middlewares/authenticateUser";
 
 const router = Router();
