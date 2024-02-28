@@ -12,6 +12,7 @@ router.use("/auth", authRoutes);
 // All the Post routes
 router.use("/posts", isAuthenticated, postRoutes);
 
-router.use("/users", userRoutes);
+//All the user routes
+router.use("/users", isAuthenticated, userRoutes);
 
 export default router;

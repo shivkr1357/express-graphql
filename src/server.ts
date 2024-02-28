@@ -40,6 +40,9 @@ app.use("*", (req, res) => {
    res.send("Hello from express server");
 });
 
+// Log the discovered routes
+console.log("Discovered routes:", Object.keys(specs?.paths));
+
 // MongoDB connection and Server start
 mongoose
    .connect(appConfig.DB_URL)

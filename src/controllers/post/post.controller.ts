@@ -64,4 +64,29 @@ const updatePost: RequestHandler = async (req, res) => {
    }
 };
 
-export default { createPost, updatePost };
+const deletePost: RequestHandler = async (req, res) => {
+   try {
+      const postId = req.params;
+
+      const post = await Posts.findById({ postId });
+
+      if (!post) {
+         return res
+            .status(400)
+            .json({ error: true, message: "Post not found" });
+      }
+
+      await post.deleteOne();
+
+      return res
+         .status(200)
+         .json({ error: true, message: "Post deleted successfully" });
+   } catch (error) {
+      console.log("Error", error);
+      return res
+         .status(500)
+         .json({ error: true, message: "Internal Server Error" });
+   }
+};
+
+export default { createPost, updatePost, deletePost };

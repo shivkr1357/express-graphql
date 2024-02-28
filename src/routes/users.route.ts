@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getController } from "../controllers/users";
+import { getController, postController } from "../controllers/users";
 
 const router = Router();
 
@@ -68,6 +68,79 @@ const router = Router();
 
 router.get("/getOneUser/:userId", getController.getOneUserData);
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: API operations for retriving only one user data
+ */
+
+/**
+ * @swagger
+ * /users/getAllUsers:
+ *   get:
+ *     summary: Get all users
+ *     description: Retrieve a list of all users with pagination support.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number for pagination (default is 1)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Maximum number of users per page (default is 10)
+ *     responses:
+ *       200:
+ *         description: Successful response with a list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *       400:
+ *         description: No users found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ */
+
 router.get("/getAllUsers", getController.getAllUser);
+
+router.patch("/blockUser/:blockId", postController.blockUser);
 
 export default router;

@@ -62,6 +62,10 @@ const userSchema = new Schema({
       type: String,
       default: "",
    },
+   blockedUsers: {
+      type: [],
+      default: [],
+   },
 });
 
 const User = mongoose.model("Users", userSchema);
