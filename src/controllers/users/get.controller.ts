@@ -26,7 +26,7 @@ const getAllUser: RequestHandler = async (req, res) => {
 };
 
 const getOneUserData: RequestHandler = async (req, res) => {
-   const { email } = req.body;
+   const { email } = req.params;
 
    try {
       if (!email) {

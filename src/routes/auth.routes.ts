@@ -15,7 +15,7 @@ const router = Router();
 
 /**
  * @swagger
- * /auth/signin:
+ * /auth/:
  *   post:
  *     summary: User Sign In
  *     description: Authenticate and log in a user with email and password.

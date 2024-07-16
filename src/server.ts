@@ -15,10 +15,16 @@ import fs from "fs";
 const app = express();
 dotenv.config();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
+
+const corsOptions = {
+   origin: "http://localhost:3000", // Specify the frontend URL
+   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+   credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+};
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 
 const specs = swaggerJSDoc(swaggerOptions) as any;

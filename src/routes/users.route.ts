@@ -66,7 +66,7 @@ const router = Router();
  *                   description: Error message indicating an internal server error.
  */
 
-router.get("/getOneUser/:userId", getController.getOneUserData);
+router.get("/getOneUser/:email", getController.getOneUserData);
 
 /**
  * @swagger
