@@ -18,9 +18,9 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 
 const corsOptions = {
-   origin: "http://localhost:3000", // Specify the frontend URL
-   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-   credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+  origin: "http://localhost:3000", // Specify the frontend URL
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
 };
 
 app.use(express.json());
@@ -41,55 +41,55 @@ app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Endpoint to handle image uploads
 app.post("/api/v1/upload", upload.single("image"), (req, res) => {
-   try {
-      const { type, postId } = req.body;
+  try {
+    const { type, postId } = req.body;
 
-      if (!type) {
-         return res.status(400).json({ error: "Type and postId are required" });
-      }
+    if (!type) {
+      return res.status(400).json({ error: "Type and postId are required" });
+    }
 
-      const allowedTypes = ["post", "user"];
-      if (!allowedTypes.includes(type)) {
-         return res.status(400).json({ error: "Invalid type" });
-      }
+    const allowedTypes = ["post", "user"];
+    if (!allowedTypes.includes(type)) {
+      return res.status(400).json({ error: "Invalid type" });
+    }
 
-      const image = req.file;
+    const image = req.file;
 
-      if (!image) {
-         return res.status(400).json({ error: "No image uploaded" });
-      }
+    if (!image) {
+      return res.status(400).json({ error: "No image uploaded" });
+    }
 
-      const uploadPath = `uploads/${type}`;
+    const uploadPath = `uploads/${type}`;
 
-      // Check if the directory exists, if not create it
-      let date = new Date();
+    // Check if the directory exists, if not create it
+    let date = new Date();
 
-      fs.mkdirSync(uploadPath, { recursive: true });
-      const extname = path.extname(image.originalname);
+    fs.mkdirSync(uploadPath, { recursive: true });
+    const extname = path.extname(image.originalname);
 
-      // Generate new filename with lowercase original name and timestamp
-      const filename = `${path
-         .basename(image.originalname, extname)
-         .toLowerCase()
-         .replace(/\s+/g, "")}_${Date.now()}${extname}`;
+    // Generate new filename with lowercase original name and timestamp
+    const filename = `${path
+      .basename(image.originalname, extname)
+      .toLowerCase()
+      .replace(/\s+/g, "")}_${Date.now()}${extname}`;
 
-      console.log("File naame", filename);
+    console.log("File naame", filename);
 
-      // Move the uploaded file to the appropriate folder
-      fs.renameSync(image.path, path.join(uploadPath, filename));
+    // Move the uploaded file to the appropriate folder
+    fs.renameSync(image.path, path.join(uploadPath, filename));
 
-      res.status(200).json({ message: "Image uploaded successfully" });
-   } catch (error) {
-      console.log("Error", error);
-      return res
-         .status(500)
-         .json({ error: true, message: "Internal server error" });
-   }
+    res.status(200).json({ message: "Image uploaded successfully" });
+  } catch (error) {
+    console.log("Error", error);
+    return res
+      .status(500)
+      .json({ error: true, message: "Internal server error" });
+  }
 });
 
 // Default route
 app.use("*", (req, res) => {
-   res.send("Hello from express server");
+  res.send("Hello from express server");
 });
 
 // Log the discovered routes
@@ -100,17 +100,17 @@ app.use("*", (req, res) => {
 console.log("username", process.env.DB_URL_PROD);
 
 mongoose
-   .connect(
-      process.env.NODE_ENV === "PROD"
-         ? (process.env.DB_URL_PROD as string)
-         : appConfig.DB_URL
-   )
-   .then(() => {
-      console.log("MongoDB connected to the database");
-      app.listen(port, () => {
-         console.log(`App listening on port ${port}`);
-      });
-   })
-   .catch((error) => {
-      console.error("Error connecting to MongoDB:", error);
-   });
+  .connect(
+    process.env.NODE_ENV === "PROD"
+      ? (process.env.DB_URL_PROD as string)
+      : appConfig.DB_URL
+  )
+  .then(() => {
+    console.log("MongoDB connected to the database");
+    app.listen(port, () => {
+      console.log(`App listening on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
