@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { IPost } from "../types/validator";
+import PostComments from "./postComment.model";
 
 const Schema = mongoose.Schema;
 

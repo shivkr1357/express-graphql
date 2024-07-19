@@ -7,10 +7,13 @@ const getAllUser: RequestHandler = async (req, res) => {
       let limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
 
       const users = await User.find()
+         .select(
+            "_id email fullName phone address profilePicture hobbies colorTheme isDeactivated gender language about blockedUsers"
+         )
          .skip((page - 1) * limit)
          .limit(limit);
 
-      if (users.length == 0) {
+      if (users.length === 0) {
          return res
             .status(400)
             .json({ message: "No users found", error: true });
