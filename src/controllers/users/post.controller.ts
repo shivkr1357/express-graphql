@@ -18,7 +18,11 @@ const blockUser: RequestHandler = async (req, res) => {
       return res
          .status(200)
          .json({ error: false, message: "User blocked successfully" });
-   } catch (error) {}
+   } catch (error) {
+      return res
+         .status(500)
+         .json({ error: true, message: "Internal Server Error" });
+   }
 };
 
 export default { blockUser };

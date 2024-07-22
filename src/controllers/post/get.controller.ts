@@ -8,8 +8,7 @@ const getAllPosts: RequestHandler = async (req, res) => {
    const limitValue: number = parseInt(limit as string, 10);
 
    try {
-      const totalPosts: number = await Posts.countDocuments();
-      const allPostsWithComments: IPost[] = await Posts.find()
+      const posts: IPost[] = await Posts.find()
          .populate("comments")
          .sort({ createdAt: -1 }) // Sort by creation date in descending order
          .skip((currentPage - 1) * limitValue) // Skip records based on the page number
@@ -18,10 +17,7 @@ const getAllPosts: RequestHandler = async (req, res) => {
       res.status(200).json({
          error: false,
          message: "Posts found Successfully",
-         allPostsWithComments,
-         totalPosts,
-         currentPage,
-         totalPages: Math.ceil(totalPosts / limitValue),
+         posts,
       });
    } catch (error) {
       console.log("Error ", error);

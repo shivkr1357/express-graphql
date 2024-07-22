@@ -141,6 +141,78 @@ router.get("/getOneUser/:email", getController.getOneUserData);
 
 router.get("/getAllUsers", getController.getAllUser);
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: API operations for retrieving only one user data
+ */
+
+/**
+ * @swagger
+ * /users/blockUser/{blockId}:
+ *   post:
+ *     summary: Block a User
+ *     description: Block a user by adding their ID to the blocked users list.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: blockId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to block
+ *       - in: body
+ *         name: user
+ *         required: true
+ *         description: The user object containing blocked users list
+ *         schema:
+ *           type: object
+ *           properties:
+ *             user:
+ *               $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: User blocked successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *       400:
+ *         description: Unable to block user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ */
+
 router.patch("/blockUser/:blockId", postController.blockUser);
 
 export default router;
