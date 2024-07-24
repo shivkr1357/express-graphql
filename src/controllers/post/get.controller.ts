@@ -9,7 +9,15 @@ const getAllPosts: RequestHandler = async (req, res) => {
 
    try {
       const posts: IPost[] = await Posts.find()
-         .populate("comments")
+         .select("-updatedAt -__v") // Exclude updatedAt and __v fields
+         .populate({
+            path: "comments",
+            select: "-updatedAt -__v", // Exclude these fields from comments too
+         })
+         .populate({
+            path: "userId",
+            select: "fullName email", // Include only name and email from user
+         })
          .sort({ createdAt: -1 }) // Sort by creation date in descending order
          .skip((currentPage - 1) * limitValue) // Skip records based on the page number
          .limit(limitValue); // Limit the number of records per page

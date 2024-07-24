@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { PostCommentsType } from "../types/validator";
 
 const Schema = mongoose.Schema;
 
-const postCommentSchema = new Schema(
+const postCommentSchema = new Schema<PostCommentsType>(
    {
       comment: {
          type: String,

@@ -37,6 +37,7 @@ const postSchema = new Schema<IPost>(
       },
       comments: {
          type: [{ type: Schema.Types.ObjectId, ref: "PostComments" }],
+         default: [],
       },
    },
    { timestamps: true }

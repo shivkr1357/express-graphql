@@ -62,3 +62,10 @@ export interface IPostReport extends Document {
    postId: Types.ObjectId;
    ReporterUserId: Types.ObjectId;
 }
+
+export interface PostCommentsType extends Document {
+   comment: string;
+   postId: Types.ObjectId;
+   userId: Types.ObjectId;
+   likes: Types.ObjectId[];
+}

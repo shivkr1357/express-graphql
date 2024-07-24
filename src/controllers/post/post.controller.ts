@@ -4,7 +4,8 @@ import Posts from "../../models/posts.model";
 const createPost: RequestHandler = async (req, res) => {
    const userData = req.body.user;
 
-   const { title, description, image, tags, postType } = req.body;
+   const { title, description, image, tags, postType, likes, comments } =
+      req.body;
 
    try {
       const newPost = await Posts.create({
@@ -14,8 +15,8 @@ const createPost: RequestHandler = async (req, res) => {
          image,
          tags,
          postType,
-         likes: [],
-         comments: [],
+         likes: likes,
+         comments: comments,
       });
 
       return res
