@@ -132,7 +132,7 @@ router.get("/", getController.getAllPosts);
  *                   description: Indicates the status of the operation.
  */
 
-router.get("/:id", getController.getPostById);
+router.get("/getPostById/:id", getController.getPostById);
 
 /**
  * @swagger
@@ -346,5 +346,6 @@ router.patch("/update/:postId", postController.updatePost);
  */
 
 router.delete("/delete/:postId", postController.deletePost);
+router.get("/searchPost", getController.searchPost);
 
 export default router;

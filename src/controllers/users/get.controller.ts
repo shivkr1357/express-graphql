@@ -49,4 +49,34 @@ const getOneUserData: RequestHandler = async (req, res) => {
    }
 };
 
-export default { getAllUser, getOneUserData };
+const searchUser: RequestHandler = async (req, res) => {
+   const { q } = req.query;
+
+   if (!q) {
+      return res
+         .status(400)
+         .json({ error: true, message: "Query parameter `q` is required" });
+   }
+
+   try {
+      const searchRegex = new RegExp(q as string, "i");
+
+      const users = await User.find({
+         $or: [
+            { fullName: { $regex: searchRegex } },
+            { email: { $regex: searchRegex } },
+         ],
+      }).select("-password");
+
+      res.status(200).json({
+         error: false,
+         message: "Users found successfully",
+         users,
+      });
+   } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ error: true, message: "Internal Server Error" });
+   }
+};
+
+export default { getAllUser, getOneUserData, searchUser };

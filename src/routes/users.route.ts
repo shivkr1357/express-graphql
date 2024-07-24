@@ -214,5 +214,6 @@ router.get("/getAllUsers", getController.getAllUser);
  */
 
 router.patch("/blockUser/:blockId", postController.blockUser);
+router.get("/searchUser", getController.searchUser);
 
 export default router;

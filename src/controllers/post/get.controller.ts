@@ -56,4 +56,34 @@ const getPostById: RequestHandler = async (req, res) => {
    }
 };
 
-export default { getAllPosts, getPostById };
+const searchPost: RequestHandler = async (req, res) => {
+   const { q } = req.query;
+
+   if (!q) {
+      return res
+         .status(400)
+         .json({ error: true, message: "Query parameter `q` is required" });
+   }
+
+   try {
+      const searchRegex = new RegExp(q as string, "i");
+
+      const posts: IPost[] = await Posts.find({
+         $or: [
+            { title: { $regex: searchRegex } },
+            { description: { $regex: searchRegex } },
+         ],
+      });
+
+      res.status(200).json({
+         error: false,
+         message: "Posts found successfully",
+         posts,
+      });
+   } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ error: true, message: "Internal Server Error" });
+   }
+};
+
+export default { getAllPosts, getPostById, searchPost };
