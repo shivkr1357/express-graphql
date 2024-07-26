@@ -214,6 +214,74 @@ router.get("/getAllUsers", getController.getAllUser);
  */
 
 router.patch("/blockUser/:blockId", postController.blockUser);
+
+/**
+ * @swagger
+ * /users/searchUser:
+ *   get:
+ *     summary: Search users by query
+ *     description: Search for users that match the given query in the full name or email.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The query string to search for in the users' full name or email.
+ *     responses:
+ *       200:
+ *         description: Successful response indicating the users found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       fullName:
+ *                         type: string
+ *                         description: The full name of the user.
+ *                       email:
+ *                         type: string
+ *                         description: The email of the user.
+ *       400:
+ *         description: Bad request, query parameter `q` is missing.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ */
+
 router.get("/searchUser", getController.searchUser);
 
 export default router;

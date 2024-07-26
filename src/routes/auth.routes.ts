@@ -249,7 +249,7 @@ router.post("/verifyToken", verifyRefreshToken, postController.verifyToken);
 /**
  * @swagger
  * /auth/logout:
- *   post:
+ *   delete:
  *     summary: Logout user
  *     description: Logout user by invalidating the provided refresh token.
  *     tags: [Authentication]

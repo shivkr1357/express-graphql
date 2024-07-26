@@ -54,4 +54,80 @@ const likeComment: RequestHandler = async (req, res) => {
       .json({ error: false, message: "Comment Liked successfully" });
 };
 
-export default { addComment, likeComment };
+const updateComment: RequestHandler = async (req, res) => {
+   const { comment } = req.body as any;
+   const { commentId } = req.query;
+
+   if (!commentId) {
+      return res.status(400).json({
+         error: true,
+         message: "Comment Id is required for updating the comment",
+      });
+   }
+
+   if (!comment) {
+      return res
+         .status(400)
+         .json({ error: true, message: "Comment field cannot be empty" });
+   }
+
+   try {
+      // Update the comment with the new content
+      const updatedComment = await PostComments.findByIdAndUpdate(
+         commentId,
+         { comment },
+         { new: true } // Return the updated document
+      );
+
+      if (!updatedComment) {
+         return res.status(404).json({
+            error: true,
+            message: "Comment not found with the provided ID",
+         });
+      }
+
+      return res.status(200).json({
+         error: false,
+         message: "Comment updated successfully",
+         comment: updatedComment,
+      });
+   } catch (error) {
+      console.error("Error updating comment:", error);
+      return res.status(500).json({
+         error: true,
+         message: "Internal Server Error",
+      });
+   }
+};
+
+const deleteComment: RequestHandler = async (req, res) => {
+   const { commentId } = req.query;
+
+   if (!commentId) {
+      return res.status(400).json({
+         error: true,
+         message: "Comment Id is required for updating the comment",
+      });
+   }
+
+   try {
+      const response = await PostComments.findByIdAndDelete({ commentId });
+
+      if (!response) {
+         return res.status(400).json({
+            error: true,
+            message: "Error Deleting the comment",
+         });
+      }
+      return res
+         .status(200)
+         .json({ error: false, message: "Comment Deleted Successfully" });
+   } catch (error) {
+      console.log("Error", error);
+      return res
+         .status(500)
+         .json({ error: true, message: "Internal Server Error" });
+   }
+};
+
+export default { addComment, likeComment, updateComment, deleteComment };

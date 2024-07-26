@@ -346,6 +346,74 @@ router.patch("/update/:postId", postController.updatePost);
  */
 
 router.delete("/delete/:postId", postController.deletePost);
+
+/**
+ * @swagger
+ * /posts/searchPost:
+ *   get:
+ *     summary: Search posts by query
+ *     description: Search for posts that match the given query in the title or description.
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The query string to search for in the posts.
+ *     responses:
+ *       200:
+ *         description: Successful response indicating the posts found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *                 posts:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       title:
+ *                         type: string
+ *                         description: The title of the post.
+ *                       description:
+ *                         type: string
+ *                         description: The description of the post.
+ *       400:
+ *         description: Bad request, query parameter `q` is missing.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Indicates if there is an error.
+ *                 message:
+ *                   type: string
+ *                   description: Indicates the status of the operation.
+ */
+
 router.get("/searchPost", getController.searchPost);
 
 export default router;

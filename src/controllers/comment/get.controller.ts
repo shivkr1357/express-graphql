@@ -33,4 +33,30 @@ const getAllComments: RequestHandler = async (req, res) => {
    }
 };
 
-export default { getAllComments };
+const getCommentById: RequestHandler = async (req, res) => {
+   const { commentId } = req.query;
+
+   if (!commentId) {
+      return res.status(400).json({
+         error: true,
+         message: "Comment Id is required for getting comment",
+      });
+   }
+
+   try {
+      const commentData = await PostComments.findById({ commentId });
+
+      return res.status(200).json({
+         error: false,
+         message: "Comment Found Successfully",
+         comment: commentData,
+      });
+   } catch (error) {
+      console.log("Error", error);
+      return res
+         .status(500)
+         .json({ error: true, message: "Internal Server Error" });
+   }
+};
+
+export default { getAllComments, getCommentById };
