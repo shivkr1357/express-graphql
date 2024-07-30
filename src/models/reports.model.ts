@@ -3,7 +3,7 @@ import { IPostReport } from "../types/validator";
 
 const Schema = mongoose.Schema;
 
-const postReportSchema = new Schema<IPostReport>(
+const reportSchema = new Schema<IPostReport>(
    {
       content: {
          required: true,
@@ -22,6 +22,6 @@ const postReportSchema = new Schema<IPostReport>(
    { timestamps: true }
 );
 
-const PostReports = mongoose.model("PostReports", postReportSchema);
+const Reports = mongoose.model("Reports", reportSchema);
 
-export default PostReports;
+export default Reports;
