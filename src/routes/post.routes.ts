@@ -71,7 +71,7 @@ const router = Router();
  *                   type: string
  *                   description: Indicates the status of the operation.
  */
-router.get("/", getController.getAllPosts);
+router.get("/getAllPosts", getController.getAllPosts);
 
 /**
  * @swagger
