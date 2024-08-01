@@ -27,4 +27,7 @@ router.use("/events", isAuthenticated, eventRoutes);
 //All Suggestions routes
 router.use("/suggestions", isAuthenticated, suggestionsRoutes);
 
+//All Reports routes
+router.use("/reports", isAuthenticated, suggestionsRoutes);
+
 export default router;
