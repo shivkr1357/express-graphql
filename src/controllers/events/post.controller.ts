@@ -30,19 +30,19 @@ const createEvent: RequestHandler = async (req, res) => {
 const updateEvent: RequestHandler = async (req, res) => {
   // Validate request body
 
-  const { eventId } = req.params; // Assume eventId is provided in the route params
+  const id = req.params.id; // Assume eventId is provided in the route params
   const { title, description, location, dateOfEvent } = req.body;
 
   try {
     // Check if the event exists
-    const event = await Events.findById(eventId);
+    const event = await Events.findById(id);
     if (!event) {
       return res.status(404).json({ error: true, message: "Event not found" });
     }
 
     // Update the event
     const updatedEvent = await Events.findByIdAndUpdate(
-      eventId,
+      id,
       {
         title,
         description,
@@ -77,7 +77,10 @@ const deleteEvent: RequestHandler = async (req, res) => {
   if (!response)
     res.status(400).json({ error: true, message: "Event Not found " });
 
-  res.status(200).json({ error: false, message: "Event deleted successfully" });
+  res.status(200).json({
+    error: false,
+    message: "Event deleted successfully",
+  });
   try {
   } catch (error) {
     console.log("Error: ", error);
