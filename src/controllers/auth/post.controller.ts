@@ -1,9 +1,5 @@
 import { RequestHandler } from "express";
-import {
-  refreshTokenBodyValidate,
-  signInBodyValidate,
-  signupBodyValidate,
-} from "../../utils/validations";
+
 import User from "../../models/user.model";
 import bcrypt from "bcrypt";
 import generateToken from "../../utils/generateTokens";
@@ -12,14 +8,6 @@ import { appConfig } from "../../config/app.config";
 import UserToken from "../../models/userToken.model";
 
 const SignUp: RequestHandler = async (req, res) => {
-  const { error } = signupBodyValidate(req.body);
-
-  if (error) {
-    return res
-      .status(400)
-      .json({ error: true, message: error.details[0].message });
-  }
-
   const user = await User.findOne({ email: req.body.email });
 
   if (user) {
@@ -40,16 +28,8 @@ const SignUp: RequestHandler = async (req, res) => {
 };
 
 const SignIn: RequestHandler = async (req, res) => {
-  const { error } = signInBodyValidate(req.body);
-
   try {
     // check if there is any unwanted data in the body
-
-    if (error) {
-      return res
-        .status(400)
-        .json({ error: true, message: error.details[0].message });
-    }
 
     // Find one user using the unique email
     const user = await User.findOne({ email: req.body.email });
@@ -107,13 +87,6 @@ const verifyToken: RequestHandler = async (req, res) => {
 
 const logout: RequestHandler = async (req, res) => {
   try {
-    // const { error } = refreshTokenBodyValidate(req.body);
-
-    //  if (error)
-    //    return res
-    //      .status(400)
-    //      .json({ error: true, message: error.details[0].message });
-
     const userToken = await UserToken.findOne({
       token: req.body.refreshToken,
     });

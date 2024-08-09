@@ -1,19 +1,8 @@
 import { RequestHandler } from "express";
-import {
-  createEventBodyValidate,
-  updateEventBodyValidate,
-} from "../../utils/validations";
+
 import Events from "../../models/event.model";
 
 const createEvent: RequestHandler = async (req, res) => {
-  // const { error } = createEventBodyValidate(req.body);
-  // if (error) {
-  //   return res.status(400).json({
-  //     error: true,
-  //     message: "Validation Error",
-  //     details: error.details.map((err) => err.message),
-  //   });
-  // }
   const userData = req.body.user;
 
   const { title, description, location, dateOfEvent } = req.body;
@@ -40,14 +29,6 @@ const createEvent: RequestHandler = async (req, res) => {
 
 const updateEvent: RequestHandler = async (req, res) => {
   // Validate request body
-  const { error } = updateEventBodyValidate(req.body);
-  if (error) {
-    return res.status(400).json({
-      error: true,
-      message: "Validation Error",
-      details: error.details.map((err) => err.message),
-    });
-  }
 
   const { eventId } = req.params; // Assume eventId is provided in the route params
   const { title, description, location, dateOfEvent } = req.body;

@@ -1,17 +1,7 @@
 import { RequestHandler } from "express";
 import Posts from "../../models/posts.model";
-import { createPostBodyValidate } from "../../utils/validations";
 
 const createPost: RequestHandler = async (req, res) => {
-  // const { error } = createPostBodyValidate(req.body);
-  // if (error) {
-  //   return res.status(400).json({
-  //     error: true,
-  //     message: "Validation Error",
-  //     details: error.details.map((err) => err.message),
-  //   });
-  // }
-
   const userData = req.body.user;
 
   const { title, description, image, tags, postType, likes, comments } =
