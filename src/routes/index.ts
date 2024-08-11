@@ -5,6 +5,7 @@ import userRoutes from "./users.route";
 import commentRoutes from "./comment.routes";
 import eventRoutes from "./event.routes";
 import suggestionsRoutes from "./suggestions.routes";
+import reportRoutes from "./report.routes";
 import isAuthenticated from "../middlewares/authenticateUser";
 
 const router = Router();
@@ -28,6 +29,6 @@ router.use("/events", isAuthenticated, eventRoutes);
 router.use("/suggestions", isAuthenticated, suggestionsRoutes);
 
 //All Reports routes
-router.use("/reports", isAuthenticated, suggestionsRoutes);
+router.use("/reports", isAuthenticated, reportRoutes);
 
 export default router;

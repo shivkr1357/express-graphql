@@ -26,7 +26,7 @@ const getReport: RequestHandler = async (req, res) => {
 
 const getAllReports: RequestHandler = async (req, res) => {
   const { page = "1", limit = "10" } = req.query;
-  const currentPage: number = parseInt(page as string, 10);
+  const currentPage: number = parseInt(page as string, 10) + 1;
   const limitValue: number = parseInt(limit as string, 10);
 
   // Validate page and limit
@@ -66,7 +66,7 @@ const getAllReports: RequestHandler = async (req, res) => {
       pagination: {
         currentPage,
         totalPages,
-        totalReports,
+        totalRecords: totalReports,
         limit: limitValue,
       },
     });
