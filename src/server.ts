@@ -9,8 +9,6 @@ import routes from "./routes/index"; // Import the main index file that includes
 import { appConfig, swaggerOptions } from "./config/app.config";
 import multer from "multer";
 import { fileFilter, storage } from "./utils/multer";
-import path from "path";
-import fs from "fs";
 
 const app = express();
 dotenv.config();
@@ -29,7 +27,7 @@ app.use(morgan("dev"));
 
 const specs = swaggerJSDoc(swaggerOptions) as any;
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({ storage, fileFilter });
 
 // Routes
 app.use("/api/v1", routes);
@@ -42,45 +40,32 @@ app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 // Endpoint to handle image uploads
 app.post("/api/v1/upload", upload.single("image"), (req, res) => {
   try {
-    const { type, postId } = req.body;
+    const { type } = req.body;
 
     if (!type) {
-      return res.status(400).json({ error: "Type and postId are required" });
+      return res.status(400).json({ error: true, message: "Type is required" });
     }
 
-    const allowedTypes = ["post", "user"];
+    const allowedTypes = ["post", "profile"];
     if (!allowedTypes.includes(type)) {
-      return res.status(400).json({ error: "Invalid type" });
+      return res.status(400).json({ error: true, message: "Invalid type" });
     }
 
     const image = req.file;
 
     if (!image) {
-      return res.status(400).json({ error: "No image uploaded" });
+      return res
+        .status(400)
+        .json({ error: true, message: "No image to uploaded" });
     }
 
-    const uploadPath = `uploads/${type}`;
-
-    // Check if the directory exists, if not create it
-    let date = new Date();
-
-    fs.mkdirSync(uploadPath, { recursive: true });
-    const extname = path.extname(image.originalname);
-
-    // Generate new filename with lowercase original name and timestamp
-    const filename = `${path
-      .basename(image.originalname, extname)
-      .toLowerCase()
-      .replace(/\s+/g, "")}_${Date.now()}${extname}`;
-
-    console.log("File naame", filename);
-
-    // Move the uploaded file to the appropriate folder
-    fs.renameSync(image.path, path.join(uploadPath, filename));
-
-    res.status(200).json({ message: "Image uploaded successfully" });
+    res.status(200).json({
+      error: false,
+      message: "Image uploaded successfully",
+      filename: image.filename,
+    });
   } catch (error) {
-    console.log("Error", error);
+    console.error("Error:", error);
     return res
       .status(500)
       .json({ error: true, message: "Internal server error" });
@@ -92,12 +77,7 @@ app.use("*", (req, res) => {
   res.send("Hello from express server");
 });
 
-// Log the discovered routes
-// console.log("Discovered routes:", Object.keys(specs?.paths));
-
 // MongoDB connection and Server start
-
-console.log("username", process.env.DB_URL_PROD);
 
 mongoose
   .connect(
