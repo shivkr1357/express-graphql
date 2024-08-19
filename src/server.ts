@@ -9,6 +9,7 @@ import routes from "./routes/index"; // Import the main index file that includes
 import { appConfig, swaggerOptions } from "./config/app.config";
 import multer from "multer";
 import { fileFilter, storage } from "./utils/multer";
+import path from "path";
 
 const app = express();
 dotenv.config();
@@ -35,6 +36,10 @@ app.use("/api/v1", routes);
 // Swagger UI
 app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
+// serve static images from uploads folder
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // make a separate upload routes for the images upload
 
 // Endpoint to handle image uploads
@@ -52,6 +57,7 @@ app.post("/api/v1/upload", upload.single("image"), (req, res) => {
     }
 
     const image = req.file;
+    console.log("image", image);
 
     if (!image) {
       return res
@@ -62,7 +68,7 @@ app.post("/api/v1/upload", upload.single("image"), (req, res) => {
     res.status(200).json({
       error: false,
       message: "Image uploaded successfully",
-      filename: image.filename,
+      filename: `/uploads/${type}/${image.filename}`,
     });
   } catch (error) {
     console.error("Error:", error);
@@ -72,10 +78,10 @@ app.post("/api/v1/upload", upload.single("image"), (req, res) => {
   }
 });
 
-// Default route
-app.use("*", (req, res) => {
-  res.send("Hello from express server");
-});
+// // Default route
+// app.use("*", (req, res) => {
+//   res.send("Hello from express server");
+// });
 
 // MongoDB connection and Server start
 

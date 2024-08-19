@@ -8,13 +8,13 @@ export const storage = multer.diskStorage({
     const { type } = req.body;
 
     // Set default upload directory
-    let uploadPath = "./uploads/";
+    let uploadPath = "./src/uploads/";
 
     // Determine destination directory based on the type
     if (type === "post") {
-      uploadPath = "./uploads/post/";
+      uploadPath = "./src/uploads/post/";
     } else if (type === "profile") {
-      uploadPath = "./uploads/profile/";
+      uploadPath = "./src/uploads/profile/";
     }
 
     // Ensure the directory exists or create it
@@ -24,6 +24,7 @@ export const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
+    const { type } = req.body;
     // Generate a unique filename with timestamp and original extension
     const extname = path.extname(file.originalname);
     const basename = path
